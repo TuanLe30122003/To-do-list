@@ -13,4 +13,8 @@ export const GlobalStyles = createGlobalStyle`
         font-family: "Nunito Sans", sans-serif;
         
     }
+
+    body::-webkit-scrollbar {
+        width: 0px;
+    }
 `;

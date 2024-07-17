@@ -7,10 +7,14 @@ import { DndContext } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { useThemeContext } from "./context/themeContexts";
 
+const grid = <i className="fa-solid fa-table-cells-large"></i>
+const list = <i className="fa-solid fa-table-list"></i>
+
 function App() {
 
   const [todos, setTodos] = useState(myTodos);
   const [value, setValue] = useState("");
+  const [toggleGrid, setToggleGrid] = useState(false);
 
   const theme = useThemeContext();
 
@@ -67,9 +71,16 @@ function App() {
     }
   }
 
+  // handle grid 
+
+  const handleToggleGrid = () => {
+    setToggleGrid(!toggleGrid);
+    console.log("log on function");
+  }
+
   return (
     <>
-      <AppStyled className="App" theme={theme}>
+      <AppStyled className="App" grid={toggleGrid} theme={theme}>
         <form action="" className="form" onSubmit={handleSubmit}>
           <h1>Today task</h1>
           <div className="input-container">
@@ -83,31 +94,46 @@ function App() {
         <DndContext onDragEnd={handleDragEnd}>
           <SortableContext items={todos.map((todo) => todo.id)}>
             <ul className="todos-con">
-              <div>
+              <div className="priority-con">
                 <p>
                   Priority
                 </p>
                 <div className="toggle-grid">
-                  <button>Grid</button>
+                  <button onClick={() => {
+                    console.log("CLICK !!");
+                    handleToggleGrid();
+                  }}>
+                    {
+                      toggleGrid ? grid : list
+                    }
+                  </button>
                 </div>
                 <p>
                   High
                 </p>
               </div>
+              <div className="todos">
+                {
+                  todos.map((todo) => {
+                    const { id, name, completed } = todo;
+                    return <List
+                      removeTodo={handleRemove}
+                      key={id}
+                      name={name}
+                      grid={toggleGrid}
+                      completed={completed}
+                      id={id}
+                    />
 
-              {
-                todos.map((todo) => {
-                  const { id, name, completed } = todo;
-                  return <List
-                    removeTodo={handleRemove}
-                    key={id}
-                    name={name}
-                    completed={completed}
-                    id={id}
-                  />
+                  })
+                }
+              </div>
 
-                })
-              }
+              <div className="low-priority">
+                <p>
+                  Low
+                </p>
+              </div>
             </ul>
           </SortableContext>
         </DndContext>

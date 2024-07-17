@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useThemeContext } from '../context/themeContexts';
 
-function List({ name, completed, id, removeTodo }) {
+function List({ name, completed, id, removeTodo, grid }) {
 
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
 
