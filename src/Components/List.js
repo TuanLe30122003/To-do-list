@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -8,17 +8,50 @@ function List({ name, completed, id, removeTodo }) {
 
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
 
+    const theme = useThemeContext();
+
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
     }
 
-    const theme = useThemeContext();
+    // random color
+
+    const randomColors = [
+        theme.buttonGradient1,
+        theme.buttonGradient2,
+        theme.buttonGradient3,
+        theme.buttonGradient4,
+        theme.buttonGradient5,
+        theme.buttonGradient6,
+        theme.buttonGradient7,
+        theme.buttonGradient8,
+        theme.buttonGradient9,
+        theme.buttonGradient10,
+        theme.buttonGradient11,
+        theme.buttonGradient12,
+        theme.buttonGradient13,
+        theme.buttonGradient14,
+    ]
+
+    // randomize color
+
+    const randomizeColor = () => {
+        const randomColorIndex = randomColors[Math.floor(Math.random() * randomColors.length)];
+
+        return randomColorIndex;
+    };
+
+    // useMemo to prevent rerendering
+
+    const randomColorMemo = useMemo(() => {
+        return randomizeColor();
+    }, [])
 
     const checkIcon = <i className="fa-solid fa-circle-check"></i>
 
     return (
-        <ListStyled theme={theme} style={style} {...attributes} {...listeners} ref={setNodeRef}>
+        <ListStyled theme={theme} colors={randomColorMemo} style={style} {...attributes} {...listeners} ref={setNodeRef}>
             <li
                 onDoubleClick={() => removeTodo(id)}
             >{name}</li>
@@ -32,6 +65,7 @@ function List({ name, completed, id, removeTodo }) {
 const ListStyled = styled.div`
     background: ${(props) => props.theme.colorBg2};
     position: relative;
+    margin: 5px 0;
     li{
         background: ${(props) => props.colors};
         padding: 1rem 2rem;
@@ -72,6 +106,8 @@ const ListStyled = styled.div`
             box-shadow: 1px 3px 7px rgba(0,0,0,0.3);
         }
     }
+
+    
 `;
 
 export default List

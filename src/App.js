@@ -83,6 +83,18 @@ function App() {
         <DndContext onDragEnd={handleDragEnd}>
           <SortableContext items={todos.map((todo) => todo.id)}>
             <ul className="todos-con">
+              <div>
+                <p>
+                  Priority
+                </p>
+                <div className="toggle-grid">
+                  <button>Grid</button>
+                </div>
+                <p>
+                  High
+                </p>
+              </div>
+
               {
                 todos.map((todo) => {
                   const { id, name, completed } = todo;
@@ -111,7 +123,7 @@ const AppStyled = styled.div`
   padding: 5rem 25rem;
   background-color: ${(props) => props.theme.colorBg3};
   overflow: hidden;
-  form {
+  form{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,12 +183,65 @@ const AppStyled = styled.div`
         &:hover{
           background: ${(props) => props.theme.colorPrimary2};
         }
-      } 
-
-      
+      }
+    }
   }
 
-  
+  .todos-con{
+    overflow: hidden;
+    background: ${(props) => props.theme.colorBg2};
+    padding: 5rem;
+    border-radius: 1rem;
+    box-shadow: ${(props) => props.theme.shadow3};
+    border: 1px solid ${props => props.theme.colorIcons3};
+    .todos{
+      display: ${(props) => props.grid ? 'grid' : ''};
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      grid-column-gap: 1rem;
+      transition: all .3s ease;
+      grid-row-gap: ${(props) => props.grid ? '0' : '1rem'};
+    }
+    .priority-con{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      p{
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        font-weight: 600;
+        color: ${(props) => props.theme.colorGrey2};
+        &:last-child{
+          color: ${(props) => props.theme.colorDanger};
+        }
+      }
+    }
+    .toggle-grid{
+      button{
+        padding: .5rem 1rem;
+        border-radius: 7px;
+        background: ${(props) => props.theme.buttonGradient11};
+        border: 1px solid ${(props) => props.theme.colorIcons3};
+        cursor: pointer;
+        font-size: clamp(1rem, 2vw, 1.6rem);
+        color: ${(props) => props.theme.colorGrey1};
+        transition: all .3s ease;
+      }
+    }
+
+    .low-priority{
+      margin-top: 2rem;
+      display: flex;
+      justify-content: flex-end;
+      p{
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        font-weight: 600;
+        background-clip: text;
+        background: ${(props) => props.theme.colorPrimaryGreenGrad};
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
 `;
 
 export default App;
