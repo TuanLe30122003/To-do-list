@@ -51,7 +51,7 @@ function List({ name, completed, id, removeTodo, grid, handleCompleted }) {
     const checkIcon = <i className="fa-solid fa-circle-check"></i>
 
     return (
-        <ListStyled theme={theme} grid={theme} completed={completed} colors={randomColorMemo} style={style} {...attributes} {...listeners} ref={setNodeRef}>
+        <ListStyled theme={theme} grid={grid} completed={completed} colors={randomColorMemo} style={style} {...attributes} {...listeners} ref={setNodeRef}>
             <li
                 onDoubleClick={() => removeTodo(id)}
             ><p>{name}</p></li>
@@ -69,7 +69,7 @@ const ListStyled = styled.div`
         background: ${(props) => props.colors};
         padding: 1rem 2rem;
         border-radius: 5px;
-        margin-bottom: ${props => props.grid ? '1rem' : '0'};
+        margin-bottom: ${props => props.grid ? '1rem' : '1rem'};
         list-style: none;
         border: 1px solid ${props => props.theme.colorIcons3};
         box-shadow:${props => props.theme.shadow4};
@@ -89,7 +89,7 @@ const ListStyled = styled.div`
     .complete-btn{
         position: absolute;
         right: 0;
-        top: 50%;
+        top: ${(props) => props.grid ? '40%' : '50%'};
         transform: translateY(-50%);
         font-size: clamp(1.2rem, 2vw, 2rem);
         padding: .4rem .9rem;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { myTodos } from "./data/todos";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import List from "./Components/List";
 import uuid from 'react-uuid';
 import { DndContext } from "@dnd-kit/core";
@@ -17,6 +17,23 @@ function App() {
   const [toggleGrid, setToggleGrid] = useState(false);
 
   const theme = useThemeContext();
+
+  // local storage
+
+  const saveToLocalStorage = (todos) => {
+    if (todos) {
+      localStorage.setItem('todos', JSON.stringify(todos))
+    }
+  }
+
+  // retrieve from Local
+
+  useEffect(() => {
+    const localTodos = localStorage.getItem('todos');
+    if (localTodos) {
+      setTodos(JSON.parse(localTodos));
+    }
+  }, [])
 
   // Set the new value of the input to the value state
 
@@ -40,6 +57,9 @@ function App() {
     }]
 
     setTodos(newTodos)
+
+    // Send to local storage
+    saveToLocalStorage(newTodos);
     setValue('')
   }
 
