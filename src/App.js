@@ -78,6 +78,21 @@ function App() {
     console.log("log on function");
   }
 
+  // handle the completion of the tasks
+
+  const handleCompleted = (id) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed
+      }
+
+      return todo;
+    })
+
+    console.log('aaaaa')
+    setTodos(newTodos);
+  }
+
   return (
     <>
       <AppStyled className="App" grid={toggleGrid} theme={theme}>
@@ -123,6 +138,7 @@ function App() {
                       grid={toggleGrid}
                       completed={completed}
                       id={id}
+                      handleCompleted={handleCompleted}
                     />
 
                   })

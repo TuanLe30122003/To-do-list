@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useThemeContext } from '../context/themeContexts';
 
-function List({ name, completed, id, removeTodo, grid }) {
+function List({ name, completed, id, removeTodo, grid, handleCompleted }) {
 
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
 
@@ -51,11 +51,11 @@ function List({ name, completed, id, removeTodo, grid }) {
     const checkIcon = <i className="fa-solid fa-circle-check"></i>
 
     return (
-        <ListStyled theme={theme} colors={randomColorMemo} style={style} {...attributes} {...listeners} ref={setNodeRef}>
+        <ListStyled theme={theme} grid={theme} completed={completed} colors={randomColorMemo} style={style} {...attributes} {...listeners} ref={setNodeRef}>
             <li
                 onDoubleClick={() => removeTodo(id)}
-            >{name}</li>
-            <div className='complete-btn'>
+            ><p>{name}</p></li>
+            <div className='complete-btn' onDoubleClick={() => handleCompleted(id)}>
                 {checkIcon}
             </div>
         </ListStyled>
@@ -65,7 +65,6 @@ function List({ name, completed, id, removeTodo, grid }) {
 const ListStyled = styled.div`
     background: ${(props) => props.theme.colorBg2};
     position: relative;
-    margin: 5px 0;
     li{
         background: ${(props) => props.colors};
         padding: 1rem 2rem;
@@ -106,8 +105,6 @@ const ListStyled = styled.div`
             box-shadow: 1px 3px 7px rgba(0,0,0,0.3);
         }
     }
-
-    
 `;
 
 export default List
